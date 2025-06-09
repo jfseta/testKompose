@@ -23,6 +23,7 @@ spec:
         io.kompose.service: zipline
     spec:
       containers:
+          name: zipline
         - env:
             - name: DATABASE_URL
               value: postgres://zipline:QCyK5hQIFyuyCQy0whBk479oc9XL1Wei@postgresql:5432/zipline
@@ -30,7 +31,6 @@ spec:
             - configMapRef:
                 name: env
           image: ghcr.io/diced/zipline:latest
-          name: zipline
           ports:
             - containerPort: 3000
               protocol: TCP
@@ -41,8 +41,38 @@ spec:
               name: zipline-claim1
             - mountPath: /zipline/themes
               name: zipline-claim2
+          name: postgresql
+        - env:
+            - name: POSTGRES_DB
+              value: zipline
+            - name: POSTGRES_PASSWORD
+              value: QCyK5hQIFyuyCQy0whBk479oc9XL1Wei
+            - name: POSTGRES_USER
+              value: zipline
+          envFrom:
+            - configMapRef:
+                name: env
+          image: postgres:16
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - zipline
+            failureThreshold: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresql-claim0
+
+            
       restartPolicy: Always
       volumes:
+        - name: postgresql-claim0
+          persistentVolumeClaim:
+            claimName: postgresql-claim0
         - name: zipline-claim0
           persistentVolumeClaim:
             claimName: zipline-claim0
