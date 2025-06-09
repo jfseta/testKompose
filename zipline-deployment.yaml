@@ -26,7 +26,8 @@ spec:
         - name: zipline
           env:
             - name: DATABASE_URL
-              value: postgres://zipline:QCyK5hQIFyuyCQy0whBk479oc9XL1Wei@postgresql:5432/zipline
+#              value: postgres://zipline:QCyK5hQIFyuyCQy0whBk479oc9XL1Wei@postgresql:5432/zipline
+              value: postgres://zipline:QCyK5hQIFyuyCQy0whBk479oc9XL1Wei@127.0.0.1:5432/zipline
           envFrom:
             - configMapRef:
                 name: env
