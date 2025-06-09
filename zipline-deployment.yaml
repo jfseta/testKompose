@@ -50,6 +50,8 @@ spec:
               value: QCyK5hQIFyuyCQy0whBk479oc9XL1Wei
             - name: POSTGRES_USER
               value: zipline
+            - name: PGDATA
+              value: /var/lib/postgresql/data/myData/
           envFrom:
             - configMapRef:
                 name: env
