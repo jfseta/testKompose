@@ -24,49 +24,49 @@ spec:
     spec:
       containers:
         - name: zipline
-          - env:
-              - name: DATABASE_URL
-                value: postgres://zipline:QCyK5hQIFyuyCQy0whBk479oc9XL1Wei@postgresql:5432/zipline
-            envFrom:
-              - configMapRef:
-                  name: env
-            image: ghcr.io/diced/zipline:latest
-            ports:
-              - containerPort: 3000
-                protocol: TCP
-            volumeMounts:
-              - mountPath: /zipline/uploads
-                name: zipline-claim0
-              - mountPath: /zipline/public
-                name: zipline-claim1
-              - mountPath: /zipline/themes
-                name: zipline-claim2
-        
+          env:
+            - name: DATABASE_URL
+              value: postgres://zipline:QCyK5hQIFyuyCQy0whBk479oc9XL1Wei@postgresql:5432/zipline
+          envFrom:
+            - configMapRef:
+                name: env
+          image: ghcr.io/diced/zipline:latest
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /zipline/uploads
+              name: zipline-claim0
+            - mountPath: /zipline/public
+              name: zipline-claim1
+            - mountPath: /zipline/themes
+              name: zipline-claim2
+      
         - name: postgresql
-          - env:
-              - name: POSTGRES_DB
-                value: zipline
-              - name: POSTGRES_PASSWORD
-                value: QCyK5hQIFyuyCQy0whBk479oc9XL1Wei
-              - name: POSTGRES_USER
-                value: zipline
-            envFrom:
-              - configMapRef:
-                  name: env
-            image: postgres:16
-            livenessProbe:
-              exec:
-                command:
-                  - pg_isready
-                  - -U
-                  - zipline
-              failureThreshold: 5
-              periodSeconds: 10
-              timeoutSeconds: 5
-  
-            volumeMounts:
-              - mountPath: /var/lib/postgresql/data
-                name: postgresql-claim0
+          env:
+            - name: POSTGRES_DB
+              value: zipline
+            - name: POSTGRES_PASSWORD
+              value: QCyK5hQIFyuyCQy0whBk479oc9XL1Wei
+            - name: POSTGRES_USER
+              value: zipline
+          envFrom:
+            - configMapRef:
+                name: env
+          image: postgres:16
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - zipline
+            failureThreshold: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresql-claim0
 
             
 #      restartPolicy: Always
