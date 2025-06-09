@@ -23,7 +23,7 @@ spec:
         io.kompose.service: zipline
     spec:
       containers:
-          name: zipline
+        - name: zipline
         - env:
             - name: DATABASE_URL
               value: postgres://zipline:QCyK5hQIFyuyCQy0whBk479oc9XL1Wei@postgresql:5432/zipline
@@ -41,7 +41,8 @@ spec:
               name: zipline-claim1
             - mountPath: /zipline/themes
               name: zipline-claim2
-          name: postgresql
+        
+        - name: postgresql
         - env:
             - name: POSTGRES_DB
               value: zipline
