@@ -47,6 +47,15 @@ spec:
               port: 3000
             initialDelaySeconds: 3
             periodSeconds: 3
+          healthCheck:
+            checkIntervalSec: 5
+            timeoutSec: 5
+            healthyThreshold: 1
+            unhealthyThreshold: 2
+            type: HTTP
+            requestPath: /
+            port: 3000
+    
       restartPolicy: Always
       volumes:
         - name: zipline-claim0
